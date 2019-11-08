@@ -10,6 +10,9 @@ main proc
 		leerF SIZEOF buffer,buffer,handle
         print buffer
 		getChar
+        print enc2
+        macroNumTam
+        getChar
     salir:
             mov ah,4ch ; numero de funcion para finalizar el programa
             xor al,al

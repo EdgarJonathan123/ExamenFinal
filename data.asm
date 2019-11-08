@@ -7,7 +7,8 @@
 	NumArchivos   	byte 1 dup('$')
 	NumTam        	byte 1 dup('$')
 	enc1 		  	db '>>RECONOCIENDO ARCHIVO','$'
-	enc2          	db '>>ANALIZANDO ARCHIVO'
+	enc2          	db '>>ANALIZANDO ARCHIVO','$'
+	enc3          	db '>>SE CREO ARCHIVO SALIDA ','$'
 	rutaEntrada   	db 'F/entrada.txt',0
 	rutaSalida    	db 'F/salida.txt',0
 	handle 			dw ?

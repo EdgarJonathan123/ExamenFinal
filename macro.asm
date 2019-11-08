@@ -238,8 +238,12 @@ escribirF macro handle, numBytes, buffer
 	int 21h
 endm
 macroNumTam macro
-    
+
 endm
+
+
+
+
 
 AnalizaLaberinto macro 
 
