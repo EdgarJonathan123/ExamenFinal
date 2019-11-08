@@ -33,4 +33,5 @@
 	tamanioUsers = 20
 	arrayuser            usuario   tamanioUsers dup(<>)
 
-    
+    bufferLectura db 100 dup('$')
+
