@@ -7,14 +7,12 @@ main proc
         getChar
 		abrirF rutaEntrada, handle 
 		leerF SIZEOF buffer,buffer,handle
-        print buffer
+        ;print buffer
 		
-        getChar
-
         print enc2
-
-        macroNumTam
         getChar
+    
+
     salir:
             mov ah,4ch ; numero de funcion para finalizar el programa
             xor al,al

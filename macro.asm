@@ -239,9 +239,58 @@ escribirF macro handle, numBytes, buffer
 endm
 
 macroNumTam macro
+    LOCAL entrada, salida
     push si
     xor si,si
-    cmp buffer[si],'s'
-    pop si
+    entrada:
+        cmp buffer[si],'$'
+        je salida
+        
+    salida:
+        pop si
 
+endm
+
+macroAnalizar macro
+    LOCAL entrada,salida, estado1,estado2,estado3, estado4, estado5
+    xor si,si
+
+    entrada:
+        cmp buffer[si],'0'
+        jae estado2
+        inc si
+        jmp entrada
+
+    salida:
+
+endm
+
+verificarNum macro num
+    LOCAL fin
+    mov flag1,'0'
+    cmp buffer[num],'0'
+    jb fin
+    cmp buffer[num],'9'
+    ja fin
+    
+    mov flag1,'1'
+    fin:
+endm
+verificarLetra macro num 
+    LOCAL fin,minusculass
+    mov flag2,'0'
+    
+    cmp buffer[num],'A'
+    jb minusculass
+    cmp buffer[num],'Z'
+    ja minusculass
+    mov flag2,'1'
+    minusculass:
+         cmp buffer[num],'a'
+        jb fin
+        cmp buffer[num],'z'
+        ja fin
+        mov flag2,'1'
+
+    fin:
 endm
