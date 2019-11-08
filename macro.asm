@@ -122,9 +122,9 @@ printReg macro parameter1
         push ax     
         mov ax,parameter1
         call toAscii
-        print corA
+        ;print corA
         print Num
-        print corC
+        ;print corC
         pop ax
 endm
 
@@ -252,14 +252,22 @@ macroNumTam macro
 endm
 
 macroAnalizar macro
-    LOCAL entrada,salida, estado1,estado2,estado3, estado4, estado5
+    LOCAL entrada, salida, estado1,estado2,estado3, estado4, estado5
     xor si,si
 
     entrada:
-        cmp buffer[si],'0'
-        jae estado2
+
+        verificarNum si
+        cmp flag1,'1'
+        je estado1
         inc si
         jmp entrada
+
+    estado1:
+        verificarNum si
+        
+
+        
 
     salida:
 

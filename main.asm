@@ -11,6 +11,7 @@ main proc
 		
         print enc2
         getChar
+        macroAnalizar
     
 
     salir:
