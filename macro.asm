@@ -245,11 +245,3 @@ macroNumTam macro
     pop si
 
 endm
-
-
-alizaLaberinto macro 
-
-
-
-
-endm

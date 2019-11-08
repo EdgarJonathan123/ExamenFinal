@@ -1,4 +1,4 @@
-
+include mproc.asm
 .code 
 
     PrintAl proc

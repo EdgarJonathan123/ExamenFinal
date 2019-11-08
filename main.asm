@@ -5,12 +5,14 @@ main proc
 
         print enc1
         getChar
-       
 		abrirF rutaEntrada, handle 
 		leerF SIZEOF buffer,buffer,handle
         print buffer
-		getChar
+		
+        getChar
+
         print enc2
+
         macroNumTam
         getChar
     salir:
