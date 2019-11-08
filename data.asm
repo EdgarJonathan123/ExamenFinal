@@ -1,7 +1,8 @@
 
 	Num db 100 dup('$')
 
-    bufferLectura db 100  dup('$')
+    bufferLectura  db 100  dup('$')
+    bufferRespuest db 100  dup('$')
 	buffer        db 1000 dup('$')
 	NumArchivos   byte 1 dup('$')
 	NumTam        byte 1 dup('$')
