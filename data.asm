@@ -22,16 +22,13 @@
         tiempo word 0
 	usuario ENDS  
 
+		;==========================================================================================
+		;==========================================================================================
 
-	user     	db 15 dup('$')
-    punteo  	word 0
-    time    	word 0
-
-	
-	ptrUser      word 0d
-
-	tamanioUsers = 20
-	arrayuser            usuario   tamanioUsers dup(<>)
-
-    bufferLectura db 100 dup('$')
+    bufferLectura db 100  dup('$')
+	buffer        db 1000 dup('$')
+	NumArchivos   byte 1 dup('$')
+	NumTam        byte 1 dup('$')
+	rutaEntrada   db 'F/entrada.txt',0
+	rutaSalida    db 'F/salida.txt',0
 
