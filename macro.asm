@@ -237,15 +237,17 @@ escribirF macro handle, numBytes, buffer
 	lea dx,buffer
 	int 21h
 endm
+
 macroNumTam macro
+    push si
+    xor si,si
+    cmp buffer[si],'s'
+    pop si
 
 endm
 
 
-
-
-
-AnalizaLaberinto macro 
+alizaLaberinto macro 
 
 
 
