@@ -1,6 +1,6 @@
 
 
-alizaLaberinto macro 
+anlizaLaberinto macro 
  call getPos
 
 endm
