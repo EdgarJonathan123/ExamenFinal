@@ -1,5 +1,67 @@
 include mproc.asm
+
+.data
+    posEntrada word 2 dup('$')
+    posSalida word 2 dup('$')
+    prueba db '*E********* *********      **** ** ******        ** ***** ***       *** *********        S**********','$'
+
+
+
 .code 
+
+getPos proc
+        ;--------------------------------------------------------------------;
+        ;   Recibe:     posEntrada,posSalida                                 ;
+        ;   Devuelve:    posEntrada,posSalida                                ;
+        ;   Comentarios: Encuentra la entrada y la salida del laberinto      ;
+        ;--------------------------------------------------------------------;
+
+        ;ini Subrutina proglogo
+            pusha
+        ;fin Surutina prologo
+
+        ;Ini Codigo--
+
+           mov NumTam,10
+           String_size prueba 
+           mov si, ax
+
+           bucle:
+                cmp prueba[si],'E'
+                je entrada
+                cmp prueba[si],'e'
+                je entrada
+
+                cmp si,ax
+                je FIN
+                inc si
+                jmp bucle
+           ;fin etiqueta
+
+
+           entrada:
+
+            mWrite <'Encontre la entrada'>
+
+            jmp Fin 
+           ;fin etiqueta
+
+
+
+
+        ;Fin Codigo--
+
+        ;ini Subrutina epilogo
+            FIN:
+                popa
+                ret 
+            ;fin etiqueta
+        ;fin Subrutina epilogo
+getPos endp
+
+
+
+;------------Procedimientos multiproposito-----
 
     PrintAl proc
         push dx
@@ -329,7 +391,7 @@ include mproc.asm
             
             mov bx,[bp+4]              ;bx = col
             mov ax,[bp+6]              ;ax = fila
-            mov cx,320d
+            mov cx,NumTam
             mul cx
             add ax,bx
 
@@ -368,7 +430,7 @@ include mproc.asm
         ;Ini Codigo--
             mov dx,0                    ;limpiamos dividendo, superior
             mov ax,word ptr[bp+4]       ;ax = posicion absoluta, divendo inferior
-            mov bx,320d                 ;divisor
+            mov cx,NumTam                 ;divisor
 
             div bx
             mov cx,dx
