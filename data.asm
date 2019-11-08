@@ -31,4 +31,5 @@
 	NumTam        byte 1 dup('$')
 	rutaEntrada   db 'F/entrada.txt',0
 	rutaSalida    db 'F/salida.txt',0
+	handle dw ?
 

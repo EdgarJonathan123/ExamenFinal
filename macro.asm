@@ -198,3 +198,42 @@ Numero macro parameter1
         call EsNumero
         pop di
 endm
+
+;=======================FILE
+
+abrirF macro ruta,handle
+	mov ah,3dh
+	mov al,010b
+	lea dx,ruta
+	int 21h
+	mov handle,ax
+	;jc ErrorAbrir
+endm
+
+
+leerF macro numbytes,buffer,handle
+	mov ah,3fh
+	mov bx,handle
+	mov cx,numbytes
+	lea dx,buffer
+	int 21h
+	;jc ErrorLeer
+endm
+
+
+crearF macro ruta, handle
+	mov ah,3ch
+	mov cx,00h
+	lea dx, ruta
+	int 21h
+	;jc ErrorCrear
+	mov handle,ax
+endm
+
+escribirF macro handle, numBytes, buffer
+	mov ah,40h
+	mov bx,handle
+	mov cx,numBytes
+	lea dx,buffer
+	int 21h
+endm
