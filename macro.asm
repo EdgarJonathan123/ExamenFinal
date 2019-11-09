@@ -188,7 +188,7 @@ Ascii macro parameter1
 endm
 
 ADecimal macro parameter1
-        push  offset parameter1
+        push offset parameter1
         call toDecimal
 endm
 
@@ -252,53 +252,234 @@ macroNumTam macro
 endm
 
 macroAnalizar macro
-    LOCAL entrada, salida, estado1,estado2,estado3, estado4, estado5
+    LOCAL entrada,salida,estado1,estado2,estado3,estado4,estado5,estado6,estado7,estado8,estado8fin,estado8fin2
     xor si,si
+    xor di,di
+
 
     entrada:
-
         verificarNum si
-        cmp flag1,'1'
+        cmp flag1,31h
         je estado1
         inc si
         jmp entrada
 
     estado1:
+        inc si
         verificarNum si
+        cmp flag1,31h
+        je estado1
+       
+    estado2:
+        cmp buffer[si],26h
+        je salida
+        inc si
+        verificarNum si
+        cmp flag1,31h
+        je estado3
         
+        jmp estado2
 
+    estado3:
+        ;codigo para almacenar el numero en NumTam-----------
+        mov ah,0000h
+        mov al, buffer[si]
+        mov variable1[di],al
+        inc di
+        ;-----------------------------------------------------
+        inc si
+        verificarNum si
+        cmp flag1,31h
+        je estado3
+        mov al, buffer[si]
+        cmp al,95d
+        je estado3
+        ;limpiando di
+        ;print variable1
         
+        xor di,di
+        conDec variable1
+        printReg NumTam
+        getChar
+
+    estado4:
+        inc si
+        verificarLetra si
+        cmp flag1,31h
+        je estado5
+        jmp estado4
+        
+    estado5:
+        ;codigo para almacenar el nombre------------
+        mov al, buffer[si]
+        mov nombre[di],al
+        inc di
+        ;--------------------------------------------
+        inc si
+        verificarLetra si               ;si es una letra
+        cmp flag1,31h
+        je estado5
+        verificarNum si                 ;si es un numero
+        cmp flag1,31h
+        je estado5
+        mov al, buffer[si]              ;si es un guion
+        cmp al,95
+        je estado5  
+        print nombre
+        getChar
+
+     
+
+    estado6:   
+        inc si
+        cmp buffer[si],10d
+        je estado7
+        jmp estado6
+    
+    estado7:
+        xor di,di
+        mWrite <'[$'>
+        mov cx,NumTam
+        printReg cx
+        mWrite <']$'>
+        mov dx,NumTam
+        inc si
+    etilooop:
+         mov cx,NumTam
+        etiloop:
+            mov al, buffer[si]
+            mov bufferLectura[di],al
+            inc si
+            inc di
+        loop etiloop
+        estado8:
+            cmp buffer[si],10d
+            je estado8fin
+            inc si
+            jmp estado8
+        estado8fin:
+        inc si
+        dec dx
+        mov cx,dx
+        cmp cx, 0
+        jne etilooop
+       
+
+        print bufferLectura
+        getChar
+    xor di,di
+    limpiararray bufferLectura
+    limpiararray nombre
+    limpiararray variable1
+    jmp estado2
 
     salida:
 
 endm
 
+conDec macro arreglo
+    mov tmp,di
+    contarArray arreglo
+    mov di,tmp
+    
+endm
 verificarNum macro num
     LOCAL fin
-    mov flag1,'0'
-    cmp buffer[num],'0'
+    mov flag1,30h
+    cmp buffer[num],30h
     jb fin
-    cmp buffer[num],'9'
+    cmp buffer[num],39h
     ja fin
     
-    mov flag1,'1'
+    mov flag1,31h
     fin:
 endm
 verificarLetra macro num 
     LOCAL fin,minusculass
-    mov flag2,'0'
+    mov flag1,30h
     
-    cmp buffer[num],'A'
+    cmp buffer[num],41h
     jb minusculass
-    cmp buffer[num],'Z'
+    cmp buffer[num],5ah
     ja minusculass
-    mov flag2,'1'
+    mov flag1,31h
+    jmp fin
     minusculass:
-         cmp buffer[num],'a'
+        cmp buffer[num],61h
         jb fin
-        cmp buffer[num],'z'
+        cmp buffer[num],7ah
         ja fin
-        mov flag2,'1'
+        mov flag1,31h
 
     fin:
+endm
+limpiararray macro arreglo
+	LOCAL continuar, finalizar
+    push di
+    xor di,di
+    continuar:
+        cmp arreglo[di],24h
+        je finalizar
+		mov arreglo[di],24h
+        inc di
+        jmp continuar
+    finalizar: 
+      pop di
+
+endm
+
+contarArray macro arreglo  
+	LOCAL continuar, finalizar,dosDigitos,tresDigitos, finDigitos
+    
+    xor di,di
+    continuar:
+        cmp arreglo[di],24h
+        je finalizar
+        inc di
+        jmp continuar
+    finalizar: 
+
+    cmp di,2
+    je dosDigitos
+    cmp di,3
+    je tresDigitos
+    
+    dosDigitos:
+        mov ah, 0h
+        mov al, arreglo[0]
+        mov bl, 10d
+        sub ax, 30h
+        mul bl
+        mov dh,00h
+        mov dl,arreglo[1]
+        sub dl,30h
+        add ax, dx
+        ;printReg ax
+        mov NumTam,ax
+        jmp finDigitos
+    tresDigitos:
+        mov ah, 00h
+        mov al, arreglo[0]
+        sub ax,30h
+        mov bl, 100d
+        mul bl
+
+        mov dx,ax
+        mov ah, 0h
+        mov al, arreglo[1]
+        mov bl, 10d
+        sub ax, 30h
+        mul bl
+        add ax,dx
+        mov dh,00h
+        mov dl,arreglo[2]
+        sub dl,30h
+        add ax, dx
+        ;sprintReg ax
+        mov NumTam,ax
+        jmp finDigitos
+    finDigitos:
+
+    
+    
 endm
